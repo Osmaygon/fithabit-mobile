@@ -1,0 +1,18 @@
+{
+  "name": "FitHabit",
+  "short_name": "FitHabit",
+  "description": "Rutinas rápidas, estiramientos y progreso para entrenar en casa.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F8FAF7",
+  "theme_color": "#6FAF8B",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
