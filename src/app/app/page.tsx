@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Activity, Bell, CalendarDays, Dumbbell, Flame, HeartPulse, Home, LineChart, Settings, StretchHorizontal } from "lucide-react";
 
 const routineFamilies = [
@@ -52,10 +53,10 @@ export default function HomePage() {
             </div>
           </div>
 
-          <button className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#f8faf7] py-4 font-bold text-[#23352b] shadow-lg shadow-black/20">
+          <Link href="/app/workout" className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#f8faf7] py-4 font-bold text-[#23352b] shadow-lg shadow-black/20">
             <Activity size={20} />
             Empezar entrenamiento
-          </button>
+          </Link>
         </section>
 
         <section className="grid grid-cols-2 gap-3">

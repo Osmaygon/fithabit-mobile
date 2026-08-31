@@ -25,14 +25,13 @@ export async function saveOnboardingAction(formData: FormData) {
     })
     .where(eq(userPreferences.userId, user.id));
 
+  await db.delete(userEquipment).where(eq(userEquipment.userId, user.id));
   for (const item of allEquipment) {
-    await db
-      .insert(userEquipment)
-      .values({ userId: user.id, equipmentId: item.id, hasEquipment: selectedEquipment.includes(item.slug) })
-      .onConflictDoUpdate({
-        target: [userEquipment.userId, userEquipment.equipmentId],
-        set: { hasEquipment: selectedEquipment.includes(item.slug), updatedAt: new Date() },
-      });
+    await db.insert(userEquipment).values({
+      userId: user.id,
+      equipmentId: item.id,
+      hasEquipment: selectedEquipment.includes(item.slug),
+    });
   }
 
   redirect("/app");
