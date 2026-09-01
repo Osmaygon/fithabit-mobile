@@ -24,9 +24,10 @@ export default async function HistoryPage() {
         <button className="w-full rounded-2xl bg-[#23352b] py-3 font-bold text-white">Guardar</button>
       </form>
       <div className="space-y-3">
-        {items.length === 0 ? <Empty /> : items.map((w) => <article key={w.id} className="rounded-2xl bg-white/80 p-4 shadow-sm ring-1 ring-black/5"><p className="font-bold">{w.name}</p><p className="text-sm text-[#607169]">{w.category} · {Math.round(w.durationSeconds / 60)} min · {w.intensity}</p><p className="text-xs text-[#607169]">{new Date(w.completedAt).toLocaleDateString("es-ES")}</p></article>)}
+        {items.length === 0 ? <Empty /> : items.map((w) => <article key={w.id} className="rounded-2xl bg-white/80 p-4 shadow-sm ring-1 ring-black/5"><p className="font-bold">{w.name}</p><p className="text-sm text-[#607169]">{w.category} · {Math.round(w.durationSeconds / 60)} min · {labelIntensity(w.intensity)}</p><p className="text-xs text-[#607169]">{new Date(w.completedAt).toLocaleDateString("es-ES")}</p></article>)}
       </div>
     </section>
   );
 }
 function Empty(){return <div className="rounded-[2rem] bg-white/80 p-6 text-center shadow-sm ring-1 ring-black/5"><p className="font-bold">Sin entrenamientos todavía</p><p className="mt-2 text-sm text-[#607169]">Completa una rutina o añade una actividad manual.</p></div>}
+function labelIntensity(value: string) { return value === "easy" ? "Fácil" : value === "hard" ? "Difícil" : "Medio"; }
