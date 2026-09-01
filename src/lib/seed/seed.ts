@@ -36,9 +36,12 @@ export async function seedBaseData() {
         instructions: exercise.instructions,
         tips: exercise.tips,
         commonMistakes: exercise.mistakes,
+        muscles: exercise.muscles,
         difficulty: exercise.difficulty as "beginner" | "intermediate" | "advanced",
         isDefault: true,
       });
+    } else {
+      await db.update(exercises).set({ muscles: exercise.muscles, instructions: exercise.instructions, tips: exercise.tips, commonMistakes: exercise.mistakes }).where(eq(exercises.slug, exercise.slug));
     }
   }
 

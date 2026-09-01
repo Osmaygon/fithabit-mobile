@@ -79,6 +79,7 @@ export const exercises = pgTable("exercises", {
   instructions: text("instructions").notNull(),
   tips: text("tips").notNull(),
   commonMistakes: text("common_mistakes").notNull(),
+  muscles: text("muscles").notNull().default("General"),
   difficulty: difficultyEnum("difficulty").notNull().default("beginner"),
   isDefault: boolean("is_default").notNull().default(false),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),

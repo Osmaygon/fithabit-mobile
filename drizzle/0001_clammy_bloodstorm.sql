@@ -1,0 +1,1 @@
+ALTER TABLE "exercises" ADD COLUMN "muscles" text DEFAULT 'General' NOT NULL;

@@ -98,6 +98,7 @@ export async function createExerciseAction(formData: FormData) {
     instructions: String(formData.get("instructions") || "Realiza el ejercicio con control."),
     tips: String(formData.get("tips") || "Mantén una técnica cómoda y estable."),
     commonMistakes: String(formData.get("commonMistakes") || "Evita movimientos bruscos."),
+    muscles: String(formData.get("muscles") || "General"),
     difficulty: "beginner",
     isDefault: false,
   });
