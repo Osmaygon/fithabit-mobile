@@ -8,6 +8,7 @@ export default async function RoutinesPage() {
   return (
     <section>
       <PageHeader eyebrow="Biblioteca" title="Rutinas" description="Rutinas listas para entrenar en casa." />
+      <Link href="/app/routines/new" className="mb-5 block rounded-2xl bg-[#23352b] py-3 text-center font-bold text-white">Crear rutina personalizada</Link>
       <div className="grid gap-3 md:grid-cols-2">
         {items.map((routine) => (
           <article key={routine.id} className="rounded-[1.6rem] bg-white/80 p-4 shadow-sm ring-1 ring-black/5">
