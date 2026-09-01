@@ -19,24 +19,21 @@ export default function WorkoutPage() {
   const done = index >= steps.length;
 
   function nextStep() {
-    const next = index + 1;
-    setIndex(next);
-    setLeft(steps[next]?.value ?? 0);
+    setIndex((current) => {
+      const next = current + 1;
+      setLeft(steps[next]?.value ?? 0);
+      return next;
+    });
   }
 
   useEffect(() => {
     if (!step || step.mode !== "time") return;
     const t = setTimeout(() => {
-      setLeft((value) => {
-        if (value <= 1) {
-          setTimeout(nextStep, 0);
-          return 0;
-        }
-        return value - 1;
-      });
+      if (left <= 1) nextStep();
+      else setLeft((value) => value - 1);
     }, 1000);
     return () => clearTimeout(t);
-  }, [left, step]);
+  });
 
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col px-4 py-8">
