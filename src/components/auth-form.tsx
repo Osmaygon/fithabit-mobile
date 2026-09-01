@@ -21,6 +21,7 @@ export function AuthForm({ mode }: { mode: "login" | "register" | "reset" }) {
         <div className="rounded-2xl bg-[#e8f2ea] px-4 py-3 text-sm text-primary-dark">
           <p className="font-bold">Token de recuperación MVP</p>
           <code className="break-all">{state.resetToken}</code>
+          <Link href="/reset-password/confirm" className="mt-3 block font-bold underline">Usar token</Link>
         </div>
       )}
 

@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { eq } from "drizzle-orm";
+import { and, eq, gt, isNull } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { passwordResetTokens, userPreferences, users } from "@/lib/db/schema";
 import { createSession, createToken, destroySession, hashPassword, hashToken, verifyPassword } from "./session";
@@ -18,7 +18,7 @@ const loginSchema = z.object({
   password: z.string().min(1, "Introduce la contraseña."),
 });
 
-export type AuthState = { error?: string; resetToken?: string };
+export type AuthState = { error?: string; resetToken?: string; success?: string };
 
 export async function registerAction(_: AuthState, formData: FormData): Promise<AuthState> {
   const parsed = registerSchema.safeParse(Object.fromEntries(formData));
@@ -72,4 +72,23 @@ export async function requestPasswordResetAction(_: AuthState, formData: FormDat
   });
 
   return { resetToken: token };
+}
+
+export async function confirmPasswordResetAction(_: AuthState, formData: FormData): Promise<AuthState> {
+  const token = String(formData.get("token") ?? "");
+  const password = String(formData.get("password") ?? "");
+  if (password.length < 8) return { error: "La contraseña debe tener al menos 8 caracteres." };
+
+  const found = await db
+    .select()
+    .from(passwordResetTokens)
+    .where(and(eq(passwordResetTokens.tokenHash, hashToken(token)), gt(passwordResetTokens.expiresAt, new Date()), isNull(passwordResetTokens.usedAt)))
+    .limit(1);
+
+  const reset = found[0];
+  if (!reset) return { error: "Token inválido o caducado." };
+
+  await db.update(users).set({ passwordHash: await hashPassword(password), updatedAt: new Date() }).where(eq(users.id, reset.userId));
+  await db.update(passwordResetTokens).set({ usedAt: new Date() }).where(eq(passwordResetTokens.id, reset.id));
+  return { success: "Contraseña actualizada. Ya puedes iniciar sesión." };
 }
