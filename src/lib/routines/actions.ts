@@ -52,7 +52,10 @@ export async function deleteRoutineAction(formData: FormData) {
   const user = await getCurrentUser();
   if (!user) redirect("/login");
   const id = String(formData.get("routineId"));
-  await db.update(routines).set({ deletedAt: new Date() }).where(eq(routines.id, id));
+  const routine = (await db.select().from(routines).where(eq(routines.id, id)).limit(1))[0];
+  if (routine && !routine.isDefault && routine.userId === user.id) {
+    await db.update(routines).set({ deletedAt: new Date() }).where(eq(routines.id, id));
+  }
   redirect("/app/routines");
 }
 
